@@ -20,7 +20,7 @@ function love.load()
 	persFreq = math.random() * 2
 	persOffset = math.random(0, 100)
 
-
+	heightIncr = 0.02
 
 	theta = 0.0
 	thetaIncr = math.random() / 25 + 0.01
@@ -34,8 +34,14 @@ function love.update(dt)
 
 	if changeColorsRequested then generateNewColors() end
 
-	theta = theta + thetaIncr
-	heightPalette:incrementHeights(0.02)
+	if not (goInReverse or pauseVisuals) then
+		theta = theta + thetaIncr
+		heightPalette:incrementHeights(heightIncr)
+	elseif goInReverse and (not pauseVisuals) then
+		theta = theta - thetaIncr
+		heightPalette:incrementHeights(-heightIncr)
+	end
+
 	noiseGen.lacunarity = (NoiseGenerator.lacunarityMax - NoiseGenerator.lacunarityMin) * (math.sin(lacFreq * theta + lacOffset) + 1) / 2 + NoiseGenerator.lacunarityMin
 	noiseGen.persistence = (NoiseGenerator.persistenceMax - NoiseGenerator.persistenceMin) * (math.sin(persFreq * theta + persOffset) + 1) / 2 + NoiseGenerator.persistenceMin
 
@@ -43,7 +49,27 @@ end
 
 function love.keypressed(key)
 
-	if key == "c" then changeColorsRequested = true end
+	if key == "c" then changeColorsRequested = true
+	elseif key == "f" then goInReverse = false
+	elseif key == "r" then goInReverse = true
+	elseif key == "p" then
+		if pauseVisuals then pauseVisuals = false else pauseVisuals = true end
+	elseif key == "." then
+		thetaIncr = thetaIncr + 0.0025
+		heightIncr = heightIncr + 0.0025
+	elseif key == "," then
+		if (thetaIncr - 0.0025) <= 0.0 then
+			thetaIncr = 0
+		else
+			thetaIncr = thetaIncr - 0.0025
+		end
+
+		if (heightIncr - 0.0025) <= 0.0 then
+			heightIncr = 0
+		else
+			heightIncr = heightIncr - 0.0025
+		end
+	end
 
 	return
 
