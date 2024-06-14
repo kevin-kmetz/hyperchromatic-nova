@@ -32,6 +32,8 @@ function love.update(dt)
 	--noiseGen:incrementLacunarity(0.03)
 	--noiseGen:incrementPersistence(0.06)
 
+	if changeColorsRequested then generateNewColors() end
+
 	theta = theta + thetaIncr
 	heightPalette:incrementHeights(0.02)
 	noiseGen.lacunarity = (NoiseGenerator.lacunarityMax - NoiseGenerator.lacunarityMin) * (math.sin(lacFreq * theta + lacOffset) + 1) / 2 + NoiseGenerator.lacunarityMin
@@ -39,26 +41,18 @@ function love.update(dt)
 
 end
 
+function love.keypressed(key)
+
+	if key == "c" then changeColorsRequested = true end
+
+	return
+
+end
+
 function love.draw()
 	--print("in draw")
 
 	local min, max = math.huge, -(math.huge)
-
-	--[[ for y = 0, height, scale do
-		for x = 0, width, scale do
-
-			mapHeight = noiseGen:getNoise(x, y)
-			local r, g, b = heightPalette:getColor(mapHeight)
-
-			love.graphics.setColor(r, g, b, 1.0)
-			love.graphics.points(x + 0.5, y + 0.5)
-
-			if mapHeight < min then min = mapHeight end
-			if mapHeight > max then max = mapHeight end
-
-		end
-	end ]]--
-
 
 	for y = 0, height, scale do
 		for x = 0, width, scale do
@@ -79,6 +73,21 @@ function love.draw()
 
 	--print("min: " .. min)
 	--print("max: " .. max)
+
+end
+
+function generateNewColors()
+
+	for i = 1, #heightPalette.colorAt do
+
+		local nR, nG, nB = math.random(), math.random(), math.random()
+		heightPalette.colorAt[i] = {r = nR, g = nG, b = nG, height = heightPalette.colorAt[i].height}
+
+	end
+
+	changeColorsRequested = false
+
+	return
 
 end
 
