@@ -107,7 +107,7 @@ function generateNewColors()
 	for i = 1, #heightPalette.colorAt do
 
 		local nR, nG, nB = math.random(), math.random(), math.random()
-		heightPalette.colorAt[i] = {r = nR, g = nG, b = nG, height = heightPalette.colorAt[i].height}
+		heightPalette.colorAt[i] = {r = nR, g = nG, b = nB, height = heightPalette.colorAt[i].height}
 
 	end
 
