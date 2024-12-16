@@ -6,13 +6,15 @@ function love.load()
 	math.randomseed(os.time())
 
 	numOfHeights = math.random(3, 35)
-	scale = 3
-	width, height = 450 * scale, 300 * scale
+	--scale = 3
+    scale = 2
+    width, height = 800, 600 -- These are the conf.lua defaults, and the defaults used in love.js
+	--width, height = 200 * scale, 150 * scale
 	noiseGen = NoiseGenerator.new(math.random(1, 8), math.random() * 2.0, math.random() * 2.0)
 
 	heightPalette = HeightPalette.new(numOfHeights)
 
-	love.window.setMode(width, height, {resizable = false, vsync = false, fullscreen = false})
+	--love.window.setMode(width, height, {resizable = false, vsync = false, fullscreen = false})
 
 	lacFreq = math.random() * 2
 	lacOffset = math.random(0, 100)
@@ -208,7 +210,7 @@ function HeightPalette:incrementHeights(incremental)
 
 	for i = 1, #self.colorAt do
 		self.colorAt[i].height = self.colorAt[i].height + incremental
-		if self.colorAt[i].height > 1.0 then self.colorAt[i].height = self.colorAt[i].height - 1.0; print("fronted") end
+		if self.colorAt[i].height > 1.0 then self.colorAt[i].height = self.colorAt[i].height - 1.0; end --print("fronted") end
 	end
 
 	swapPerformed = true
