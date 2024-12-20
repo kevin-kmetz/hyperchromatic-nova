@@ -83,8 +83,22 @@
             1
             (+ heighest<1 1))))))
 
-(fn resequence-heights [palette]
-  nil)
+(fn resequence-heights! [palette]
+  (let [reordering-index (lowest-above-one palette)
+        palette-length (length palette)
+        resequenced-palette []]
+    (if reordering-index
+      (let [downward-offset (- reordering-index 1)
+            upward-offset (- palette-length downward-offset)]
+        (for [i reordering-index palette-length]
+          (set (. resequenced-palette (- i downward-offset))
+               (. palette i)))
+        (when (> reordering-index 1)
+          (for [i 1 (- reordering-index 1)]
+            (set (. resequenced-palette (+ i upward-offset))
+                 (. palette i))))
+        resequenced-palette)
+      palette)))
 
 (fn increment-heights! [differential palette]
   (for [i 1 (length palette)]
@@ -114,6 +128,7 @@
   : height->color
   : highest-below-one
   : lowest-above-one
+  : resequence-heights!
   : increment-heights!
   : test-vals
 }
