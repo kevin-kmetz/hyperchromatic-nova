@@ -69,16 +69,19 @@
   (let [height (. palette index :height)]
     (if (< height 1)
         index
-        (= height 1)
-        0
-        (below-one? (- index 1) palette))))
+        (= index 1)
+        nil
+        (highest-below-one (- index 1) palette))))
 
 (fn lowest-above-one [palette]
   (let [p-length (length palette)
-        highest-height (. palette p-length)]
+        highest-height (. palette p-length :height)]
     (if (not (> highest-height 1))
       nil
-      (let [tmp 0] nil))))
+      (let [heighest<1 (highest-below-one p-length palette)]
+        (if (= (type heighest<1) :nil)
+            1
+            (+ heighest<1 1))))))
 
 (fn resequence-heights [palette]
   nil)
@@ -93,6 +96,13 @@
         (set (. current-color :height) (- new-height 1.0)))))
   palette)
 
+(local test-vals
+  {:p1 [{:height 0.5} {:height 0.7} {:height 0.9} {:height 1.1} {:height 1.3} {:height 1.5} {:height 1.7}]
+   :p2 [{:height 1.5} {:height 1.8} {:height 2.1} {:height 2.4}]
+   :p3 [{:height 0.15} {:height 0.30} {:height 0.45} {:height 0.60}]
+   :p4 [{:height 0.6}]
+   :p5 [{:height 0.75} {:height 1.15}]})
+
 {
   : swap!
   : swap-if!
@@ -102,6 +112,8 @@
   : randomize-colors!
   : color-at-index
   : height->color
-  : heighest-below-one
+  : highest-below-one
+  : lowest-above-one
   : increment-heights!
+  : test-vals
 }
