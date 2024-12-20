@@ -143,7 +143,7 @@ function NoiseGenerator.new(octaves, persistence, lacunarity, seed)
 
 end
 
-function NoiseGenerator:getNoise(x, y)
+"function NoiseGenerator:getNoise(x, y)
 
 	local totalNoise = 0
 	local currentFrequency = 1
@@ -164,7 +164,7 @@ function NoiseGenerator:getNoise(x, y)
 
 		return outputNoise
 
-end
+end"
 
 HeightPalette = {}
 
