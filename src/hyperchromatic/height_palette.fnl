@@ -17,6 +17,12 @@
     (swap! index-one index-two array)
     false))
 
+(fn random-color! [?height]
+  {:red (math.random)
+   :green (math.random)
+   :blue (math.random)
+   :height ?height})
+
 ;; May the data structure and algorithm gods forgive me for the
 ;; blasphemy I'm about to port over/implement. This will be rectified later.
 (fn random-array! [number-of-values]
@@ -41,6 +47,12 @@
                                  :height (. random-heights i)}))
     height-palette))
 
+(fn randomize-colors! [height-palette]
+  (let [new-palette []]
+    (for [i 1 (length height-palette)]
+      (set (. new-palette i) (random-color! (. height-palette i :height))))
+    new-palette))
+
 
 (fn color-at-index [index palette]
   (. palette index))
@@ -62,8 +74,10 @@
 {
   : swap!
   : swap-if!
+  : random-color!
   : random-array!
   : random-height-palette!
+  : randomize-colors!
   : color-at-index
   : height->color
 }
