@@ -65,6 +65,24 @@
 (fn color->height [color palette]
   nil)
 
+(fn highest-below-one [index palette]
+  (let [height (. palette index :height)]
+    (if (< height 1)
+        index
+        (= height 1)
+        0
+        (below-one? (- index 1) palette))))
+
+(fn lowest-above-one [palette]
+  (let [p-length (length palette)
+        highest-height (. palette p-length)]
+    (if (not (> highest-height 1))
+      nil
+      (let [tmp 0] nil))))
+
+(fn resequence-heights [palette]
+  nil)
+
 (fn increment-heights! [differential palette]
   (for [i 1 (length palette)]
     (let [current-color (. palette i)
@@ -84,5 +102,6 @@
   : randomize-colors!
   : color-at-index
   : height->color
+  : heighest-below-one
   : increment-heights!
 }
