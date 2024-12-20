@@ -45,16 +45,13 @@
 (fn color-at-index [index palette]
   (. palette index))
 
-(fn z [height index palette]
-  (if (< height (. palette index))
-    nil
-    nil))
-
-(fn height->color [height palette]
-  (let [[red blue green] (color-at-index 1)]
-    (each [index color (ipairs palette) &until nil]
-      nil)
-    nil))
+(fn height->color [height palette index]
+  (let [index* (or index 1)]
+    (if (> index* (length palette))
+      (color-at-index 1 palette)
+      (if (< height (. palette index* :height))
+        (color-at-index index* palette)
+        (height->color height palette (+ index* 1))))))
 
 (fn color->height [color palette]
   nil)
@@ -68,4 +65,5 @@
   : random-array!
   : random-height-palette!
   : color-at-index
+  : height->color
 }
