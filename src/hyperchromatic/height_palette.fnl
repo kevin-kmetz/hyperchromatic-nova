@@ -41,10 +41,7 @@
   (let [height-palette []
         random-heights (random-array! number-of-colors)]
     (for [i 1 number-of-colors]
-      (set (. height-palette i) {:red (math.random)
-                                 :green (math.random)
-                                 :blue (math.random)
-                                 :height (. random-heights i)}))
+      (set (. height-palette i) (random-color! (. random-heights i))))
     height-palette))
 
 (fn randomize-colors! [height-palette]
@@ -68,8 +65,15 @@
 (fn color->height [color palette]
   nil)
 
-(fn increment-heights [differential palette]
-  nil)
+(fn increment-heights! [differential palette]
+  (for [i 1 (length palette)]
+    (let [current-color (. palette i)
+          height (. current-color :height)
+          new-height (+ height differential)]
+      (set (. current-color :height) new-height)
+      (when (> new-height 1.0)
+        (set (. current-color :height) (- new-height 1.0)))))
+  palette)
 
 {
   : swap!
@@ -80,4 +84,5 @@
   : randomize-colors!
   : color-at-index
   : height->color
+  : increment-heights!
 }
