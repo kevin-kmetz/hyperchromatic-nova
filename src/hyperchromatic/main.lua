@@ -166,12 +166,12 @@ end
 
 end"
 
-HeightPalette = {}
+"HeightPalette = {}
 
 function HeightPalette.new(numOfColors)
 
 	if numOfColors == nil then numOfColors = math.floor(math.random() * 20) end
-	print("there will be " .. numOfColors .. " colors")
+	print(";;there will be " .. numOfColors .. " ;;colors")
 
 	local newHP = {}
 	newHP.colorAt = {}
@@ -188,7 +188,7 @@ function HeightPalette.new(numOfColors)
 	setmetatable(newHP, {__index = HeightPalette})
 	return newHP
 
-end
+end"
 
 function HeightPalette:getColor(mheight)
 
@@ -256,7 +256,7 @@ function NoiseGenerator:incrementPersistence(incremental)
 
 end
 
-function getRandomArray(numOfValues)
+"function getRandomArray(numOfValues)
 
 	randomArray = {}
 
@@ -283,7 +283,7 @@ function getRandomArray(numOfValues)
 
 	return randomArray
 
-end
+end"
 
 function twoDecimals(number)
 	return math.modf(number * 100) / 100
