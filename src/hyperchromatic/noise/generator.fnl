@@ -17,7 +17,7 @@
                    current-frequency*
                    current-amplitude*
                    summed-amplitudes*
-                   (- calced-octaves 1)))
+                   (+ calced-octaves 1)))
     (/ total-noise summed-amplitudes)))
 
 (fn noise-2d [x y n-params]

@@ -10,4 +10,11 @@
         : calc-octave
         : noise-2d} (require :hyperchromatic/noise))
 
+(local {:initialize init
+        :random-parameters! rp
+        :increment-lacunarity il
+        :increment-persistence ip
+        :calc-octave co
+        :noise-2d n2d} (require :hyperchromatic/noise))
+
 (assert-repl)
