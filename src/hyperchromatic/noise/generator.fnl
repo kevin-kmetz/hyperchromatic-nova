@@ -1,5 +1,8 @@
 ;; hyperchromatic/noise/generator.fnl
 
+;; Just a placeholder for now
+(local love {:math {:noise (fn [a] 5)}})
+
 (fn calc-octave [x y n-params total-noise current-frequency current-amplitude summed-amplitudes calced-octaves]
   (if (< calced-octaves (. n-params :octaves))
     (let [total-noise* (+ total-noise
@@ -23,15 +26,16 @@
         current-amplitude 1
         summed-amplitudes 0
         calced-octaves 0]
-    (calc-octaves x
-                  y
-                  n-params
-                  total-noise
-                  current-frequency
-                  current-amplitude
-                  summed-amplitudes
-                  calced-octaves)))
+    (calc-octave x
+                 y
+                 n-params
+                 total-noise
+                 current-frequency
+                 current-amplitude
+                 summed-amplitudes
+                 calced-octaves)))
 
 {
+  : calc-octave
   : noise-2d
 }

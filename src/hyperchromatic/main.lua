@@ -104,7 +104,7 @@ function love.draw()
 
 end
 
-function generateNewColors()
+"function generateNewColors()
 
 	for i = 1, #heightPalette.colorAt do
 
@@ -117,7 +117,7 @@ function generateNewColors()
 
 	return
 
-end
+end"
 
 NoiseGenerator = {lacunarityMin = 0.0, lacunarityMax = 3.0, persistenceMin = 0.0, persistenceMax = 2.0}
 
@@ -190,7 +190,7 @@ function HeightPalette.new(numOfColors)
 
 end"
 
-function HeightPalette:getColor(mheight)
+"function HeightPalette:getColor(mheight)
 
 	local h_r, h_g, h_b = self.colorAt[1].r, self.colorAt[1].g, self.colorAt[1].b
 
@@ -204,9 +204,9 @@ function HeightPalette:getColor(mheight)
 
 	return h_r, h_g, h_b
 
-end
+enda"
 
-function HeightPalette:incrementHeights(incremental)
+"function HeightPalette:incrementHeights(incremental)
 
 	for i = 1, #self.colorAt do
 		self.colorAt[i].height = self.colorAt[i].height + incremental
@@ -224,7 +224,7 @@ function HeightPalette:incrementHeights(incremental)
 			--print(twoDecimals(self.colorAt[i].height))
 			--print(twoDecimals(self.colorAt[i + 1].height))
 			if self.colorAt[i].height > self.colorAt[i + 1].height then
-				--print("swapping", twoDecimals(self.colorAt[i].height), twoDecimals(self.colorAt[i + 1].height))
+				--print(";;swapping", twoDecimals(self.colorAt[i].height), twoDecimals(self.colorAt[i + 1].height))
 				local tmp = {r = self.colorAt[i + 1].r, g = self.colorAt[i + 1].g, b = self.colorAt[i + 1].b, height = self.colorAt[i + 1].height}
 				self.colorAt[i + 1].r = self.colorAt[i].r
 				self.colorAt[i + 1].g = self.colorAt[i].g
@@ -240,7 +240,7 @@ function HeightPalette:incrementHeights(incremental)
 
 	end
 
-end
+end"
 
 function NoiseGenerator:incrementLacunarity(incremental)
 
