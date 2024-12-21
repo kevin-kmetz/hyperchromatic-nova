@@ -84,6 +84,13 @@
             (+ heighest<1 1))))))
 
 (fn resequence-heights! [palette]
+  "Accepts a palette whose height's have been incremented,
+   and reorders them so that if those with heights > 1.0
+   loop back around to the bottom of the palette.
+   ~
+   This is not meant to mutate an in-place palette - the returned
+   palette should be treated as a distinct palette, but the old one
+   should be considered mutated as well."
   (let [reordering-index (lowest-above-one palette)
         palette-length (length palette)
         resequenced-palette []]
@@ -91,10 +98,14 @@
       (let [downward-offset (- reordering-index 1)
             upward-offset (- palette-length downward-offset)]
         (for [i reordering-index palette-length]
-          (set (. resequenced-palette (- i downward-offset))
-               (. palette i))
-          (set (. resequenced-palette (- i downward-offset) :height)
-               (- (. palette i :height) 1.0)))
+          (let [current-color (. palette i)
+                current-height (. current-color :height)
+                new-index (- i downward-offset)
+                new-height (- current-height 1.0)]
+            (set (. resequenced-palette new-index)
+                 current-color)
+            (set (. resequenced-palette new-index :height)
+                 new-height)))
         (when (> reordering-index 1)
           (for [i 1 (- reordering-index 1)]
             (set (. resequenced-palette (+ i upward-offset))
@@ -103,6 +114,10 @@
       palette)))
 
 (fn increment-heights! [differential palette]
+  "Increments the heights for all colors in a palette, and then
+   reorders them accordingly. The returned palette should be treated
+   as distinct from the one passed in, and the old one passed in
+   should be considered arbitrarily mutated."
   (for [i 1 (length palette)]
     (let [current-color (. palette i)
           height (. current-color :height)
