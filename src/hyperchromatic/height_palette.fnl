@@ -67,7 +67,7 @@
 
 (fn highest-below-one [index palette]
   (let [height (. palette index :height)]
-    (if (< height 1)
+    (if (< height 1.0)
         index
         (= index 1)
         nil
@@ -76,7 +76,7 @@
 (fn lowest-above-one [palette]
   (let [p-length (length palette)
         highest-height (. palette p-length :height)]
-    (if (not (> highest-height 1))
+    (if (not (> highest-height 1.0))
       nil
       (let [heighest<1 (highest-below-one p-length palette)]
         (if (= (type heighest<1) :nil)
@@ -92,7 +92,9 @@
             upward-offset (- palette-length downward-offset)]
         (for [i reordering-index palette-length]
           (set (. resequenced-palette (- i downward-offset))
-               (. palette i)))
+               (. palette i))
+          (set (. resequenced-palette (- i downward-offset) :height)
+               (- (. palette i :height) 1.0)))
         (when (> reordering-index 1)
           (for [i 1 (- reordering-index 1)]
             (set (. resequenced-palette (+ i upward-offset))
@@ -105,10 +107,8 @@
     (let [current-color (. palette i)
           height (. current-color :height)
           new-height (+ height differential)]
-      (set (. current-color :height) new-height)
-      (when (> new-height 1.0)
-        (set (. current-color :height) (- new-height 1.0)))))
-  palette)
+      (set (. current-color :height) new-height)))
+  (resequence-heights! palette))
 
 (local test-vals
   {:p1 [{:height 0.5} {:height 0.7} {:height 0.9} {:height 1.1} {:height 1.3} {:height 1.5} {:height 1.7}]
