@@ -10,11 +10,12 @@
 (fn limit-frame-rate [state]
   nil)
 
-(fn acquire-events []
-  nil)
+(fn acquire-events [state]
+  (love.event.pump)
+  (update-state :system-events (love.event.poll)))
 
 (fn process-events [state event-queue]
-  nil)
+  (each event-name arg-1 arg-2 arg-3 arg-4 arg-5 arg-6 ))
 
 (fn process-logic [state]
   nil)
