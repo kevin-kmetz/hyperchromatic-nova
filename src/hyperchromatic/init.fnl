@@ -1,38 +1,56 @@
 ;; hyperchromatic/init.fnl
+;;
+;; These are placeholder functions for now.
 
 (local hpal (require :hyperchromatic/height_palette))
 
-(fn love.load []
-  (math.randomseed (os.time)))
-
-(fn process-input [state]
+(fn initialize []
   nil)
 
-(fn process-events [state]
+(fn limit-frame-rate [state]
   nil)
 
-(fn love.update [delta]
+(fn acquire-events []
   nil)
 
-(fn love.keypressed [key]
+(fn process-events [state event-queue]
   nil)
 
-(fn love.draw []
-  (love.graphics.setColor 0.1 0.2 (/ (math.random) 2) 1.0)
-  (love.graphics.rectangle :fill 100 100 600 600))
+(fn process-logic [state]
+  nil)
 
 (fn process-graphics [state]
   nil)
 
-;; Uses tail call optimization to loop. Exit should occur
-;; after process-input if triggered.
-;;
-;; !! DO NOT RUN - CAUSES MEMORY LEAK RIGHT NOW!
-;;    Results from not clearing screen but continuously drawing rectangles.
-;;
-;;(fn love.run [state]
-;;  (-> state
-;;      process-input
-;;      love.update
-;;      love.draw
-;;      love.run))
+(fn render-to-screen! [state]
+  nil)
+
+(fn continue-or-quit! [state]
+  (if state.exit-program
+    state
+    (loop! state)))
+
+(fn finalize [state]
+  nil)
+
+(fn quit [state]
+  nil)
+
+(fn loop! [state]
+  (-> state
+      limit-frame-rate
+      (process-events (aquire-events!))
+      process-logic
+      process-graphics
+      render-to-screen!
+      continue-or-quit!))
+
+(fn run! []
+  (-> initialize
+      loop!
+      finalize
+      quit))
+
+{
+  : run!
+}
