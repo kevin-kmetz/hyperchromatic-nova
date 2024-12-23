@@ -24,7 +24,7 @@
     new-state))
 
 (fn limit-frame-rate [state]
-  (love.timer.sleep 0.001)
+  (love.timer.sleep 0.1)
   state)
 
 (fn acquire-events! []
@@ -48,6 +48,8 @@
 (fn render-to-screen! [state]
   (love.graphics.origin)
   (love.graphics.clear (love.graphics.getBackgroundColor))
+  (love.graphics.setColor 0.1 0.1 (+ (/ (math.random) 5) 0.40))
+  (love.graphics.rectangle "fill" 100 100 600 400)
   (love.graphics.present)
   state)
 
