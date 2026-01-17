@@ -1,0 +1,72 @@
+.
+├── assets
+│   ├── audio
+│   │   ├── music
+│   │   └── sfx
+│   └── gfx
+├── bin
+├── build
+├── config
+├── control
+├── docs
+├── lib
+├── logs
+├── notes
+├── old_structure.txt
+├── README.md
+├── run
+├── scripts
+│   ├── build.fnl
+│   ├── clean.fnl
+│   ├── package.fnl
+│   ├── run.fnl
+│   └── test.fnl
+├── src
+│   └── hyperchromatic
+│       ├── audio.fnl
+│       ├── color.fnl
+│       ├── conf.lua
+│       ├── controllers
+│       │   ├── init.fnl
+│       │   ├── keyboard.fnl
+│       │   └── mouse.fnl
+│       ├── dynamics
+│       │   ├── init.fnl
+│       │   ├── noise_dynamic.fnl
+│       │   ├── palette_dynamic.fnl
+│       │   └── view_dynamic.fnl
+│       ├── gui
+│       │   ├── hud.fnl
+│       │   └── init.fnl
+│       ├── height_palette.fnl
+│       ├── init.fnl
+│       ├── main.lua
+│       ├── math
+│       │   ├── complex.fnl
+│       │   ├── init.fnl
+│       │   └── vector.fnl
+│       ├── noise
+│       │   ├── generator.fnl
+│       │   ├── init.fnl
+│       │   └── parameters.fnl
+│       ├── oldmain.lua
+│       ├── rendering
+│       │   ├── init.fnl
+│       │   ├── post_processing
+│       │   │   └── init.fnl
+│       │   └── shaders
+│       │       └── init.fnl
+│       ├── state
+│       │   ├── game.fnl
+│       │   ├── history.fnl
+│       │   ├── init.fnl
+│       │   ├── load.fnl
+│       │   ├── save.fnl
+│       │   └── session.fnl
+│       ├── utils
+│       │   └── init.fnl
+│       └── view.fnl
+├── test-informal
+└── tests
+
+27 directories, 43 files
