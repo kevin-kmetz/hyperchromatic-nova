@@ -1,0 +1,8 @@
+# hyperchromatic-nova/.gitignore
+
+# Ignore Vim swap files:
+*.swp
+
+# Ignore files from historical reference downloads:
+historical-references
+
