@@ -1,0 +1,10 @@
+# hyperchromatic-nova/run_tests.hxml
+#
+# An HXML script to launch the test runner for the unit tests.
+#
+# Run from the root directory of the project with:
+#   haxe run_tests.hxml
+
+--class-path Source
+--run tests.Tests
+

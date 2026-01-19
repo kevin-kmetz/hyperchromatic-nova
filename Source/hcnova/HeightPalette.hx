@@ -2,6 +2,8 @@
  * hyperchromatic-nova/Source/HeightPalette.hx
  */
 
+package hcnova;
+
 private typedef HeightColorPair = {
   height:Float,
   color:Int,
@@ -25,11 +27,11 @@ class HeightPalette {
 
     for (i in 0...heightCount) {
       pairs.push({
-        height = Math.random,
-        color = Std.random(MAX_COLOR_VALUE),
+        height: Math.random(),
+        color: Std.random(MAX_COLOR_VALUE),
       });
     }
 
-    return HeightPalette.new(pairs);
+    return new HeightPalette(pairs);
   }
 }
