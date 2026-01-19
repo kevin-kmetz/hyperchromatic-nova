@@ -10,14 +10,27 @@ private typedef HeightColorPair = {
 }
 
 class HeightPalette {
-  public static final MIN_HEIGHTS:Int = 2;
-  public static final MAX_HEIGHTS:Int = 128;
+  private static final MIN_HEIGHTS:Int = 2;
+  private static final MAX_HEIGHTS:Int = 128;
   private static final MAX_COLOR_VALUE:Int = 0x1000000;
 
-  private final palette:Array<HeightColorPair>;
+  private final pairs:Array<HeightColorPair>;
 
   private function new(pairs:Array<HeightColorPair>) {
-    palette = pairs;
+    this.pairs = pairs;
+
+    this.pairs.sort(function(a:HeightColorPair, b:HeightColorPair):Int {
+      // An epsilon approach for float equality is deliberately not
+      // utilized here, as it would be over-engineering for a non-issue
+      // at present.
+
+      return switch (a.height - b.height) {
+        case diff if (diff > 0.0): 1;
+        case diff if (diff == 0.0): 0;
+        case diff if (diff < 0.0): -1;
+        case _: throw "Impossible case.";
+      }
+    });
   }
 
   public static function createRandom(?heightCount:Int):HeightPalette {
@@ -35,8 +48,5 @@ class HeightPalette {
 
     return new HeightPalette(pairs);
   }
-
-  public function size():Int {
-    return palette.length;
-  }
 }
+
