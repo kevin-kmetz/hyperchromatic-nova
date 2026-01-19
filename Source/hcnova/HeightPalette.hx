@@ -10,7 +10,8 @@ private typedef HeightColorPair = {
 }
 
 class HeightPalette {
-  private static final MAX_HEIGHTS:Int = 128;
+  public static final MIN_HEIGHTS:Int = 2;
+  public static final MAX_HEIGHTS:Int = 128;
   private static final MAX_COLOR_VALUE:Int = 0x1000000;
 
   private final palette:Array<HeightColorPair>;
@@ -23,7 +24,7 @@ class HeightPalette {
     final pairs:Array<HeightColorPair> = new Array<HeightColorPair>();
 
     if (heightCount == null)
-      heightCount = Std.random(MAX_HEIGHTS);
+      heightCount = Std.random(MAX_HEIGHTS - MIN_HEIGHTS) + MIN_HEIGHTS;
 
     for (i in 0...heightCount) {
       pairs.push({
@@ -33,5 +34,9 @@ class HeightPalette {
     }
 
     return new HeightPalette(pairs);
+  }
+
+  public function size():Int {
+    return palette.length;
   }
 }
