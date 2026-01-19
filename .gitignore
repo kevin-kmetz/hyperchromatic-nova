@@ -6,3 +6,5 @@
 # Ignore files from historical reference downloads:
 historical-references
 
+# Ignore OpenFL-generated exports directory:
+Export/
