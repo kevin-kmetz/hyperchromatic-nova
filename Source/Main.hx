@@ -7,24 +7,11 @@ package;
 import openfl.Lib;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
-import openfl.display.DisplayObjectShader;
 import openfl.display.Sprite;
 import openfl.filters.ShaderFilter;
+import openfl.utils.ByteArray;
 
-class CustomShader extends DisplayObjectShader {
-  @:glFragmentBody("
-    gl_FragColor = vec4(
-      openfl_TextureCoordv.y,
-      0.0,
-      openfl_TextureCoordv.x,
-      1.0
-    );
-  ")
-
-  public function new() {
-    super();
-  }
-}
+import hcnova.NovaShader;
 
 class Main extends Sprite {
   private final window = Lib.current.stage.window;
@@ -42,7 +29,7 @@ class Main extends Sprite {
     bitmap.width = window.width;
     bitmap.height = window.height;
 
-    final custom = new CustomShader();
+    final custom = new NovaShader();
     bitmap.filters = [new ShaderFilter(custom)];
 
     addChild(bitmap);
