@@ -7,16 +7,19 @@ package hcnova;
 import openfl.display.Shader;
 
 final novaFragmentBody = "
+  float noise_val = snoise(openfl_TextureCoordv);
+
   gl_FragColor = vec4(
-    openfl_TextureCoordv.y,
+    noise_val,
     0.0,
-    openfl_TextureCoordv.x,
+    noise_val,
     1.0
   );
 ";
 
 final novaFragmentSource =
   OpenFLGLSL.fragmentHeader +
+  SimplexGLSL.fragmentHeader +
   "void main(void) {" +
   OpenFLGLSL.fragmentBody +
   novaFragmentBody +
