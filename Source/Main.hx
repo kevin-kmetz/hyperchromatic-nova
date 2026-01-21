@@ -25,6 +25,7 @@ class Main extends Sprite {
 
     initBitmapShader();
     registerEventHandlers();
+    createColorLUT();
   }
 
   private function initBitmapShader():Void {
@@ -50,6 +51,25 @@ class Main extends Sprite {
     bitmap.height = window.height;
 
     stage.invalidate();
+  }
+
+  private function createColorLUT():BitmapData {
+    final colorData = new BitmapData(32, 1, false, 0x0000AA55);
+
+    for (i in 0...8)
+      colorData.setPixel(i, 0, 0xFF0000);
+
+    for (i in 8...16)
+      colorData.setPixel(i, 0, 0x00FF00);
+
+    for (i in 16...24)
+      colorData.setPixel(i, 0, 0x0000FF);
+
+    for (i in 24...32)
+      colorData.setPixel(i, 0, 0xFFFF00);
+
+    novaShader.data.colorLUT.input = colorData;
+    return colorData;
   }
 }
 

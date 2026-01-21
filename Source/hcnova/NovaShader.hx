@@ -9,6 +9,12 @@ import openfl.display.Shader;
 final novaFragmentHeader = "
   uniform int octaves;  // [1, 10] allowable
                         // [3, 7] ideal
+
+  uniform sampler2D colorLUT;
+
+  vec4 lutTexel(float i) {
+    return texture2D(colorLUT, vec2(i, 0.5));
+  }
 ";
 
 final novaFragmentBody = "
@@ -57,6 +63,10 @@ final novaFragmentBody = "
     outputNoise,
     1.0
   );
+
+  if (openfl_TextureCoordv.x < 0.25) {
+    gl_FragColor = lutTexel(openfl_TextureCoordv.x * 4.0);
+  }
 ";
 
 final novaFragmentSource =
