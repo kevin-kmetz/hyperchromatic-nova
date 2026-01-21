@@ -12,6 +12,8 @@ final novaFragmentHeader = "
 ";
 
 final novaFragmentBody = "
+  vec2 adjustment = openfl_TextureSize / 600.0;
+
   const int OCTAVES_LIMIT = 10;
   float persistence = 0.54;  // [0.25, 1.25] allowable
                             // [0.35, 0.70] organic
@@ -39,7 +41,7 @@ final novaFragmentBody = "
     if (i >= octaves)
       break;
 
-    totalNoise += snoise(openfl_TextureCoordv * currentFrequency)
+    totalNoise += snoise(openfl_TextureCoordv * adjustment * currentFrequency)
                   * currentAmplitude;
     summedAmplitudes += currentAmplitude;
     currentAmplitude *= persistence;
