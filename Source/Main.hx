@@ -26,10 +26,11 @@ class Main extends Sprite {
     final data = new BitmapData(1, 1, false, 0x00FFAA55);
     final bitmap = new Bitmap(data);
 
-    bitmap.width = window.width;
-    bitmap.height = window.height;
+    bitmap.width = 600;
+    bitmap.height = 600;
 
     final custom = new NovaShader();
+    custom.data.octaves.value = [6];
     bitmap.filters = [new ShaderFilter(custom)];
 
     addChild(bitmap);
