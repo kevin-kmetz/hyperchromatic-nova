@@ -11,8 +11,9 @@ private typedef HeightColorPair = {
 
 class HeightPalette {
   private static final MIN_HEIGHTS:Int = 2;
-  private static final MAX_HEIGHTS:Int = 128;
+  private static final MAX_HEIGHTS:Int = 32;
   private static final MAX_COLOR_VALUE:Int = 0x1000000;
+  private static final TERMINATE_SENTINEL:Float = -5.67;
 
   private final pairs:Array<HeightColorPair>;
 
@@ -48,5 +49,29 @@ class HeightPalette {
 
     return new HeightPalette(pairs);
   }
+
+  private function toHeightsMat4(begin:Int, end:Int):Array<Float> {
+    final heights = new Array<Float>();
+    final heightQuantity = pairs.length;
+
+    for (i in begin...end) {
+      if (i < heightQuantity)
+        heights.push(pairs[i].height);
+      else
+        heights.push(HeightPalette.TERMINATE_SENTINEL);
+    }
+
+    return heights;
+  }
+
+  public function toLowerHeightsMat4():Array<Float> {
+    return toHeightsMat4(0, 16);
+  }
+
+  public function toHigherHeightsMat4():Array<Float> {
+    return toHeightsMat4(16, 32);
+  }
+
+  // public function toColorLUT():BitmapData { }
 }
 

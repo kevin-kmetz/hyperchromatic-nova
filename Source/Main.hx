@@ -12,6 +12,7 @@ import openfl.events.Event;
 import openfl.filters.ShaderFilter;
 import openfl.utils.ByteArray;
 
+import hcnova.HeightPalette;
 import hcnova.NovaShader;
 
 class Main extends Sprite {
@@ -26,6 +27,7 @@ class Main extends Sprite {
     initBitmapShader();
     registerEventHandlers();
     createColorLUT();
+    setShaderUniforms();
   }
 
   private function initBitmapShader():Void {
@@ -70,6 +72,16 @@ class Main extends Sprite {
 
     novaShader.data.colorLUT.input = colorData;
     return colorData;
+  }
+
+  private function initHeightPalette():Void {
+    final palette = HeightPalette.createRandom();
+  }
+
+  private function setShaderUniforms():Void {
+    // novaShader.data.lowerHeights.value = [];
+
+    // novaShader.data.lowerHeights.value = [];
   }
 }
 

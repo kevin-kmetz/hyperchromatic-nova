@@ -10,6 +10,9 @@ private final novaFragHeaderUniforms = "
   uniform int octaves;  // [1, 10] allowable
                         // [3, 7] ideal
 
+  uniform mat4 heightsLower;
+  uniform mat4 heightsHigher;
+
   uniform sampler2D colorLUT;
 ";
 
@@ -54,17 +57,17 @@ private final novaFragHeaderFBM = "
 
 private final novaFragBody = "
   float persistence = 0.54;  // [0.25, 1.25] allowable
-                            // [0.35, 0.70] organic
-                            // [0.95, 1.15] etched (detail-dominated)
-                            // [0.45, 0.60] balanced
-  float lacunarity = 1.70;  // [1.2, 2.3] allowable
-                           // [1.6, 2.0] organic
-                           // [1.2, 1.7] etched
-                           // [1.8, 2.1] standard
-                           // <= 1.0, > 3.0 absolute bounds
-  float frequency = 1.00;  // [0.25, 24] allowable
-                          // [0.5, 12] standard
-                          // Should be inversely related to octaves.
+                             // [0.35, 0.70] organic
+                             // [0.95, 1.15] etched (detail-dominated)
+                             // [0.45, 0.60] balanced
+  float lacunarity = 1.70;   // [1.2, 2.3] allowable
+                             // [1.6, 2.0] organic
+                             // [1.2, 1.7] etched
+                             // [1.8, 2.1] standard
+                             // <= 1.0, > 3.0 absolute bounds
+  float frequency = 1.00;    // [0.25, 24] allowable
+                             // [0.5, 12] standard
+                             // Should be inversely related to octaves.
 
   float noiseValue = fbmNoise(octaves, persistence, lacunarity, frequency);
 
