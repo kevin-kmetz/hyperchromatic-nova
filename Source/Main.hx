@@ -20,12 +20,14 @@ class Main extends Sprite {
 
   private var bitmap:Bitmap;
   private var novaShader:NovaShader;
+  private var palette:HeightPalette;
 
   public function new() {
     super();
 
     initBitmapShader();
     registerEventHandlers();
+    initHeightPalette();
     createColorLUT();
     setShaderUniforms();
   }
@@ -56,26 +58,14 @@ class Main extends Sprite {
   }
 
   private function createColorLUT():BitmapData {
-    final colorData = new BitmapData(32, 1, false, 0x0000AA55);
+    final colorLUT = palette.toColorLUT();
+    novaShader.data.colorLUT.input = colorLUT;
 
-    for (i in 0...8)
-      colorData.setPixel(i, 0, 0xFF0000);
-
-    for (i in 8...16)
-      colorData.setPixel(i, 0, 0x00FF00);
-
-    for (i in 16...24)
-      colorData.setPixel(i, 0, 0x0000FF);
-
-    for (i in 24...32)
-      colorData.setPixel(i, 0, 0xFFFF00);
-
-    novaShader.data.colorLUT.input = colorData;
-    return colorData;
+    return colorLUT;
   }
 
   private function initHeightPalette():Void {
-    final palette = HeightPalette.createRandom();
+    palette = HeightPalette.createRandom();
   }
 
   private function setShaderUniforms():Void {

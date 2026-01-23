@@ -4,6 +4,8 @@
 
 package hcnova;
 
+import openfl.display.BitmapData;
+
 private typedef HeightColorPair = {
   height:Float,
   color:Int,
@@ -14,6 +16,8 @@ class HeightPalette {
   private static final MAX_HEIGHTS:Int = 32;
   private static final MAX_COLOR_VALUE:Int = 0x1000000;
   private static final TERMINATE_SENTINEL:Float = -5.67;
+  private static final BITMAP_DEFAULT_FILL:Int = 0x00AA55;
+  private static final NO_HEIGHT_COLOR:Int = 0xFF00FF;
 
   private final pairs:Array<HeightColorPair>;
 
@@ -54,12 +58,11 @@ class HeightPalette {
     final heights = new Array<Float>();
     final heightQuantity = pairs.length;
 
-    for (i in begin...end) {
+    for (i in begin...end)
       if (i < heightQuantity)
         heights.push(pairs[i].height);
       else
         heights.push(HeightPalette.TERMINATE_SENTINEL);
-    }
 
     return heights;
   }
@@ -72,6 +75,17 @@ class HeightPalette {
     return toHeightsMat4(16, 32);
   }
 
-  // public function toColorLUT():BitmapData { }
+  public function toColorLUT():BitmapData {
+    final data = new BitmapData(32, 1, false, HeightPalette.BITMAP_DEFAULT_FILL);
+    final heightQuantity = pairs.length;
+
+    for (i in 0...32)
+      if (i < heightQuantity)
+        data.setPixel(i, 0, pairs[i].color);
+      else
+        data.setPixel(i, 0, HeightPalette.NO_HEIGHT_COLOR);
+
+    return data;
+  }
 }
 

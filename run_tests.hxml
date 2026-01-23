@@ -6,5 +6,9 @@
 #   haxe run_tests.hxml
 
 --class-path Source
+
+--library openfl
+--library lime
+
 --run tests.Tests
 
