@@ -12,7 +12,12 @@ private final novaFragHeaderUniforms = "
 
   uniform mat4 heightsLower;
   uniform mat4 heightsHigher;
+  uniform sampler2D actualColors;
 
+  // Once I'm sure my shader is working, I will rename actualColors to colorLUT
+  // and get rid of this sampler. It is merely here for testing reference
+  // when I run the program.
+  //
   uniform sampler2D colorLUT;
 ";
 
@@ -61,9 +66,22 @@ private final novaFragHeaderHeightResolve = "
   }
 
   int indexToRow(int index) {
-    return index % 4;
+    // So apparently WebGL 1.0 doesn't support the modulus operator on
+    // int and int.
+    //
+    // return index % 4;
+
+    return int(mod(float(index), 4.0));
   }
 
+  // Yes, this function uses a linear search instead of a binary search.
+  // The reality is, while binary search CAN be implemented in GLSL, it works
+  // best when the thing being searched is a known fixed length. The
+  // height-palette, while being passed in fixed-length, is not actually
+  // fixed-length, which would complicate the algorithm. Still possible, but
+  // until I see that linear search is failing me, I'm not going to prematurely
+  // optimize the function.
+  //
   int noiseToIndex(float noise, int heightQty, mat4 lower, mat4 higher) {
     int decidedIndex = 0;
     if (heightQty > 32) heightQty = 32;
@@ -73,18 +91,39 @@ private final novaFragHeaderHeightResolve = "
         break;
 
       if (i < 16) {
-        if (
+        int column = indexToColumn(i);
+        int row = indexToRow(i);
+
+        // Ugh, WebGL 1.0 is complaining about indexing a mat4 with a
+        // non-constant. Gnarly switch statement incoming in a future commit.
+        // Works fine on desktop, though.
+        //
+        if (noise <= lower[column][row]) {
+          decidedIndex = i;
+          break;
+        }
       } else if (i >= 16) {
+        int adjustedIndex = i - 16;
+        int column = indexToColumn(adjustedIndex);
+        int row = indexToRow(adjustedIndex);
+
+        // Same here - WebGL 1.0 is complaining non-constant indices.
+        //
+        if (noise <= higher[column][row]) {
+          decidedIndex = i;
+          break;
+        }
       }
     }
+
+    return decidedIndex;
   }
 
-  vec4 indexToColor(
-    int index,
-    mat4 lower,
-    mat4 higher,
-    sampler2D colors
-  ) { }
+  vec4 indexToColor(int index, sampler2D colors) {
+    float x =  (float(index) + 0.5) / 32.0;
+
+    return texture2D(colors, vec2(x, 0.5));
+  }
 ";
 
 private final novaFragBody = "
