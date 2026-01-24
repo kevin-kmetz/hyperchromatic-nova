@@ -54,6 +54,10 @@ class HeightPalette {
     return new HeightPalette(pairs);
   }
 
+  public function getPairsCount():Int {
+    return pairs.length;
+  }
+
   private function toHeightsMat4(begin:Int, end:Int):Array<Float> {
     final heights = new Array<Float>();
     final heightQuantity = pairs.length;

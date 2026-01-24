@@ -10,6 +10,7 @@ private final novaFragHeaderUniforms = "
   uniform int octaves;  // [1, 10] allowable
                         // [3, 7] ideal
 
+  uniform int heightQuantity;
   uniform mat4 heightsLower;
   uniform mat4 heightsHigher;
   uniform sampler2D actualColors;
@@ -141,15 +142,19 @@ private final novaFragBody = "
                              // Should be inversely related to octaves.
 
   float noiseValue = fbmNoise(octaves, persistence, lacunarity, frequency);
+  int index = noiseToIndex(noiseValue, heightQuantity, heightsLower, heightsHigher);
+  vec4 heightColor = indexToColor(index, actualColors);
 
-  gl_FragColor = vec4(
+  /*gl_FragColor = vec4(
     noiseValue,
     0.0,
     noiseValue,
     1.0
-  );
+  );*/
 
-  if (openfl_TextureCoordv.x < 0.25) {
+  gl_FragColor = heightColor;
+
+  if (openfl_TextureCoordv.x < 0.25 && openfl_TextureCoordv.y > 0.85) {
     gl_FragColor = lutTexel(openfl_TextureCoordv.x * 4.0, colorLUT);
   }
 ";

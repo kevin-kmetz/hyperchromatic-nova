@@ -69,9 +69,10 @@ class Main extends Sprite {
   }
 
   private function setShaderUniforms():Void {
-    // novaShader.data.lowerHeights.value = [];
-
-    // novaShader.data.lowerHeights.value = [];
+    novaShader.data.heightQuantity.value = [palette.getPairsCount()];
+    novaShader.data.heightsLower.value = palette.toLowerHeightsMat4();
+    novaShader.data.heightsHigher.value = palette.toHigherHeightsMat4();
+    novaShader.data.actualColors.input = palette.toColorLUT();
   }
 }
 
