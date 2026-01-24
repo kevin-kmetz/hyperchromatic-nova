@@ -55,6 +55,38 @@ private final novaFragHeaderFBM = "
   }
 ";
 
+private final novaFragHeaderHeightResolve = "
+  int indexToColumn(int index) {
+    return index / 4;
+  }
+
+  int indexToRow(int index) {
+    return index % 4;
+  }
+
+  int noiseToIndex(float noise, int heightQty, mat4 lower, mat4 higher) {
+    int decidedIndex = 0;
+    if (heightQty > 32) heightQty = 32;
+
+    for (int i = 0; i < 32; ++i) {
+      if (i == heightQty)
+        break;
+
+      if (i < 16) {
+        if (
+      } else if (i >= 16) {
+      }
+    }
+  }
+
+  vec4 indexToColor(
+    int index,
+    mat4 lower,
+    mat4 higher,
+    sampler2D colors
+  ) { }
+";
+
 private final novaFragBody = "
   float persistence = 0.54;  // [0.25, 1.25] allowable
                              // [0.35, 0.70] organic
@@ -83,12 +115,16 @@ private final novaFragBody = "
   }
 ";
 
+// This will eventually be updated to use a string builder instead of string
+// concatenation.
+//
 private final novaFragmentSource =
   OpenFLGLSL.fragmentHeader +
   SimplexGLSL.fragmentHeader +
   novaFragHeaderUniforms +
   novaFragHeaderLUT +
   novaFragHeaderFBM +
+  novaFragHeaderHeightResolve +
   "void main(void) {" +
   OpenFLGLSL.fragmentBody +
   novaFragBody +
