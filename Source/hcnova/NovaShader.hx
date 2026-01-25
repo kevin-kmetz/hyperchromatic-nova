@@ -75,6 +75,45 @@ private final novaFragHeaderHeightResolve = "
     return int(mod(float(index), 4.0));
   }
 
+  // The following two functions are necessary because WebGL GLSL 1.0
+  // does not allow indexing matrices with variables (the indices must be
+  // constants). If it wasn't implemented in this manner, the shader would not
+  // run in web browser.
+  //
+  float getLowerHeight(int column, int row, mat4 lower) {
+    vec4 col;
+    float height;
+
+    if (column == 0) col = lower[0];
+    else if (column == 1) col = lower[1];
+    else if (column == 2) col = lower[2];
+    else if (column == 3) col = lower[3];
+
+    if (row == 0) height = col[0];
+    else if (row == 1) height = col[1];
+    else if (row == 2) height = col[2];
+    else if (row == 3) height = col[3];
+
+    return height;
+  }
+
+  float getHigherHeight(int column, int row, mat4 higher) {
+    vec4 col;
+    float height;
+
+    if (column == 0) col = higher[0];
+    else if (column == 1) col = higher[1];
+    else if (column == 2) col = higher[2];
+    else if (column == 3) col = higher[3];
+
+    if (row == 0) height = col[0];
+    else if (row == 1) height = col[1];
+    else if (row == 2) height = col[2];
+    else if (row == 3) height = col[3];
+
+    return height;
+  }
+
   // Yes, this function uses a linear search instead of a binary search.
   // The reality is, while binary search CAN be implemented in GLSL, it works
   // best when the thing being searched is a known fixed length. The
@@ -95,11 +134,7 @@ private final novaFragHeaderHeightResolve = "
         int column = indexToColumn(i);
         int row = indexToRow(i);
 
-        // Ugh, WebGL 1.0 is complaining about indexing a mat4 with a
-        // non-constant. Gnarly switch statement incoming in a future commit.
-        // Works fine on desktop, though.
-        //
-        if (noise <= lower[column][row]) {
+        if (noise <= getLowerHeight(column, row, lower)) {
           decidedIndex = i;
           break;
         }
@@ -108,9 +143,7 @@ private final novaFragHeaderHeightResolve = "
         int column = indexToColumn(adjustedIndex);
         int row = indexToRow(adjustedIndex);
 
-        // Same here - WebGL 1.0 is complaining non-constant indices.
-        //
-        if (noise <= higher[column][row]) {
+        if (noise <= getHigherHeight(column, row, higher)) {
           decidedIndex = i;
           break;
         }
