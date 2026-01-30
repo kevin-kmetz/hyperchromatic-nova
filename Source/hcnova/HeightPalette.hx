@@ -91,5 +91,28 @@ class HeightPalette {
 
     return data;
   }
+
+  public function incrementHeights(delta: Float):Void {
+    var needsAdjustmentCount = 0;
+
+    for (pair in pairs) {
+      pair.height += delta;
+
+      if (pair.height > 1.00)
+        ++needsAdjustmentCount;
+    }
+
+    for (i in 0...needsAdjustmentCount) {
+      final pair:Null<HeightColorPair> = pairs.pop();
+
+      switch (pair) {
+        case null:
+          throw "Fatal error.";
+        case p:
+          p.height -= 1.0;
+          pairs.insert(0, p);
+      }
+    }
+  }
 }
 

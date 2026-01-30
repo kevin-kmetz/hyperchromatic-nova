@@ -48,6 +48,7 @@ class Main extends Sprite {
 
   private function registerEventHandlers():Void {
     stage.addEventListener(Event.RESIZE, onResize);
+    addEventListener(Event.ENTER_FRAME, onEnterFrame);
   }
 
   private function onResize(event:Event):Void {
@@ -73,6 +74,16 @@ class Main extends Sprite {
     novaShader.data.heightsLower.value = palette.toLowerHeightsMat4();
     novaShader.data.heightsHigher.value = palette.toHigherHeightsMat4();
     novaShader.data.actualColors.input = palette.toColorLUT();
+  }
+
+  private function onEnterFrame(event:Event):Void {
+    final delta = 0.010;
+
+    palette.incrementHeights(delta);
+    novaShader.data.colorLUT.input = palette.toColorLUT();
+    setShaderUniforms();
+    bitmap.filters = [new ShaderFilter(novaShader)];
+    bitmap.invalidate();
   }
 }
 
