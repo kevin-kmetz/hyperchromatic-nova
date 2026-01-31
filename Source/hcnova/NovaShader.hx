@@ -15,6 +15,9 @@ private final novaFragHeaderUniforms = "
   uniform mat4 heightsHigher;
   uniform sampler2D actualColors;
 
+  uniform float offset_x;
+  uniform float offset_y;
+
   // Once I'm sure my shader is working, I will rename actualColors to colorLUT
   // and get rid of this sampler. It is merely here for testing reference
   // when I run the program.
@@ -48,7 +51,8 @@ private final novaFragHeaderFBM = "
       if (i >= octaves)
         break;
 
-      totalNoise += snoise(openfl_TextureCoordv * adjustment * currentFrequency)
+      vec2 offset = vec2(offset_x, offset_y) / 600.0;
+      totalNoise += snoise((openfl_TextureCoordv + offset) * adjustment * currentFrequency)
                     * currentAmplitude;
       summedAmplitudes += currentAmplitude;
       currentAmplitude *= persistence;

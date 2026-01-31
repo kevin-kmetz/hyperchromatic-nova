@@ -74,6 +74,9 @@ class Main extends Sprite {
     novaShader.data.heightsLower.value = palette.toLowerHeightsMat4();
     novaShader.data.heightsHigher.value = palette.toHigherHeightsMat4();
     novaShader.data.actualColors.input = palette.toColorLUT();
+
+    novaShader.data.offset_x.value = [200000.0];
+    novaShader.data.offset_y.value = [-76000.0];
   }
 
   private function onEnterFrame(event:Event):Void {
