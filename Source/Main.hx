@@ -80,9 +80,9 @@ class Main extends Sprite {
   }
 
   private function onEnterFrame(event:Event):Void {
-    final delta = 0.010;
+    final delta = 0.020;
 
-    palette.incrementHeights(delta);
+    palette.update(delta, Lib.getTimer() / 60.0);
     novaShader.data.colorLUT.input = palette.toColorLUT();
     setShaderUniforms();
     bitmap.filters = [new ShaderFilter(novaShader)];
