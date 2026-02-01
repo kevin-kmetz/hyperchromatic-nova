@@ -11,6 +11,8 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.KeyboardEvent;
 import openfl.filters.ShaderFilter;
+import openfl.text.TextField;
+import openfl.text.TextFormat;
 import openfl.ui.Keyboard;
 import openfl.utils.ByteArray;
 
@@ -19,6 +21,10 @@ import hcnova.NovaShader;
 
 class Main extends Sprite {
   private final window = Lib.current.stage.window;
+  private var textUI:TextField = new TextField();
+  private var textFormatUI:TextFormat = new TextFormat(
+    "helvetica", 20, 0xFFFFFF
+  );
 
   private var bitmap:Bitmap;
   private var novaShader:NovaShader;
@@ -40,6 +46,8 @@ class Main extends Sprite {
     initHeightPalette();
     createColorLUT();
     setShaderUniforms();
+
+    initializeUI();
   }
 
   private function initBitmapShader():Void {
@@ -103,6 +111,8 @@ class Main extends Sprite {
     setShaderUniforms();
     bitmap.filters = [new ShaderFilter(novaShader)];
     bitmap.invalidate();
+
+    updateUI();
   }
 
   private function onKeyDown(event:KeyboardEvent):Void {
@@ -130,6 +140,38 @@ class Main extends Sprite {
     switch (event.keyCode) {
       case Keyboard.SHIFT: shiftIsPressed = false;
     }
+  }
+
+  private function initializeUI():Void {
+    textUI.defaultTextFormat = textFormatUI;
+    textUI.text = 'Time elapsed: ${truncateLowFloat(Lib.getTimer() / 60.0)}';
+    textUI.width = 240;
+    textUI.x = window.width - textUI.width - 5;
+    textUI.y = 5;
+    textUI.background = true;
+    textUI.backgroundColor = 0x9999FF;
+
+    addChild(textUI);
+  }
+
+  private function updateUI():Void {
+    final intendedPositionX = window.width - textUI.width - 5;
+    final intendedPositionY = 5;
+
+    textUI.text = 'Time elapsed: ${truncateLowFloat(Lib.getTimer() / 60.0)}';
+
+    if (textUI.x != intendedPositionX || textUI.y != intendedPositionY) {
+      textUI.x = intendedPositionX;
+      textUI.y = intendedPositionY;
+    }
+  }
+
+  // This is hacky, but I really don't want to have to import a third-party
+  // library just to make a float cleanly printable, and I don't see any
+  // included printf/sprintf-style functions in the Haxe documentation.
+  //
+  private function truncateLowFloat(f:Float):Float {
+    return Math.ffloor(f * 100.0) / 100.00;
   }
 }
 

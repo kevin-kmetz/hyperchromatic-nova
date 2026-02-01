@@ -119,12 +119,6 @@ class HeightPalette {
   public function randomizeHeightsAndColors():Void {
     initialPairs = HeightPalette.createRandomPairArray();
 
-   /* _pairs = new Array<HeightColorPair>();
-
-    for (p in initialPairs)
-      _pairs.push({ height: p.height, color: p.color });
-   */
-
      fullyResetDupe();
    }
 
