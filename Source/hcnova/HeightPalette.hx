@@ -95,19 +95,21 @@ class HeightPalette {
   public function update(constDelta:Float, hpTime:Float):Void {
     resetDupeToInit();
 
-    for (p in _pairs) {
-      var initialUpdatedHeight = p.height + constDelta * hpTime;
-      final absUpdated = Math.abs(initialUpdatedHeight);
-      final updatedFrac = absUpdated - Math.floor(absUpdated);
-
-      if (initialUpdatedHeight >= 0.0)
-        p.height = updatedFrac;
-      else
-        p.height = 1.0 - updatedFrac;
-    }
+    for (p in _pairs)
+      p.height = calculateNewHeight(p.height, constDelta, hpTime);
 
     sortPairs(_pairs);
   }
+
+  private function calculateNewHeight(
+    height:Float, constDelta:Float, hpTime:Float
+  ):Float {
+    final initialUpdatedHeight = height + constDelta * hpTime;
+    final absUpdated = Math.abs(initialUpdatedHeight);
+    final updatedFrac = absUpdated - Math.floor(absUpdated);
+
+    return initialUpdatedHeight >= 0.0 ? updatedFrac : 1.0 - updatedFrac;
+   }
 
   public function randomizeColors():Void {
     for (p in initialPairs)
@@ -117,10 +119,13 @@ class HeightPalette {
   public function randomizeHeightsAndColors():Void {
     initialPairs = HeightPalette.createRandomPairArray();
 
-    _pairs = new Array<HeightColorPair>();
+   /* _pairs = new Array<HeightColorPair>();
 
     for (p in initialPairs)
       _pairs.push({ height: p.height, color: p.color });
+   */
+
+     fullyResetDupe();
    }
 
   // The following sort is mutating.
@@ -151,6 +156,34 @@ class HeightPalette {
       dupe.height = initialPair.height;
       dupe.color = initialPair.color;
     }
+  }
+
+  // This differs from resetDupeToInit in that resetDupeToInit makes an
+  // assumption that the quantity of pairs has remained the same, and in that
+  // it reuses the pair, overwriting its values, preventing them from being
+  // garbage collected.
+  //
+  private function fullyResetDupe():Void {
+    _pairs = new Array<HeightColorPair>();
+
+    for (p in initialPairs)
+      _pairs.push({ height: p.height, color: p.color });
+   }
+
+  public function renormalizeHeights(constDelta:Float, hpTime:Float):Void {
+    final newPairs = new Array<HeightColorPair>();
+
+    for (ipair in initialPairs) {
+      newPairs.push({
+        height: calculateNewHeight(ipair.height, constDelta, hpTime),
+        color: ipair.color,
+      });
+    }
+
+    sortPairs(newPairs);
+
+    initialPairs = newPairs;
+    fullyResetDupe();
   }
 }
 

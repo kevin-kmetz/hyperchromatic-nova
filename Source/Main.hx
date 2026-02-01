@@ -114,8 +114,14 @@ class Main extends Sprite {
         final currentOctaves = novaShader.data.octaves.value[0];
         novaShader.data.octaves.value[0] =
           shiftIsPressed ? currentOctaves - 1 : currentOctaves + 1;
-      case Keyboard.MINUS: heightDelta -= 0.0025;
-      case Keyboard.EQUAL: heightDelta += 0.0025;
+      case Keyboard.MINUS:
+        palette.renormalizeHeights(heightDelta, simulatedTime);
+        heightDelta -= 0.0025;
+        simulatedTime = 0.0;
+      case Keyboard.EQUAL:
+        palette.renormalizeHeights(heightDelta, simulatedTime);
+        heightDelta += 0.0025;
+        simulatedTime = 0.0;
       case Keyboard.SHIFT: shiftIsPressed = true;
     }
   }
