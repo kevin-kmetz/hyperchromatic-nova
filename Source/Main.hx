@@ -26,7 +26,7 @@ class Main extends Sprite {
 
   private var simulatedTime:Float = Lib.getTimer() / 60.0;
   private var lastFrameTime:Float = Lib.getTimer() / 60.0;
-  private var heightDelta:Float = 0.001;
+  private var heightDelta:Float = 0.0175;
 
   private var timeReversed:Bool = false;
 
@@ -96,10 +96,6 @@ class Main extends Sprite {
     simulatedTime += (timeReversed ? -frameDelta : frameDelta);
 
     palette.update(heightDelta, simulatedTime);
-    trace('x');
-    trace(Lib.getTimer() / 60.0);
-    trace(simulatedTime);
-    trace(simulatedTime / (Lib.getTimer() / 60.0));
     novaShader.data.colorLUT.input = palette.toColorLUT();
     setShaderUniforms();
     bitmap.filters = [new ShaderFilter(novaShader)];

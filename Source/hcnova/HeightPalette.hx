@@ -90,10 +90,14 @@ class HeightPalette {
     resetDupeToInit();
 
     for (p in _pairs) {
-      // The following lines perform absFrac(x).
-      //
-      final updatedHeight = Math.abs(p.height + constDelta * hpTime);
-      p.height = updatedHeight - Math.floor(updatedHeight);
+      var initialUpdatedHeight = p.height + constDelta * hpTime;
+      final absUpdated = Math.abs(initialUpdatedHeight);
+      final updatedFrac = absUpdated - Math.floor(absUpdated);
+
+      if (initialUpdatedHeight >= 0.0)
+        p.height = updatedFrac;
+      else
+        p.height = 1.0 - updatedFrac;
     }
 
     sortPairs(_pairs);
