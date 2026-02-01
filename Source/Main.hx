@@ -9,7 +9,9 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.Sprite;
 import openfl.events.Event;
+import openfl.events.KeyboardEvent;
 import openfl.filters.ShaderFilter;
+import openfl.ui.Keyboard;
 import openfl.utils.ByteArray;
 
 import hcnova.HeightPalette;
@@ -21,6 +23,12 @@ class Main extends Sprite {
   private var bitmap:Bitmap;
   private var novaShader:NovaShader;
   private var palette:HeightPalette;
+
+  private var simulatedTime:Float = Lib.getTimer() / 60.0;
+  private var lastFrameTime:Float = Lib.getTimer() / 60.0;
+  private var heightDelta:Float = 0.001;
+
+  private var timeReversed:Bool = false;
 
   public function new() {
     super();
@@ -49,6 +57,7 @@ class Main extends Sprite {
   private function registerEventHandlers():Void {
     stage.addEventListener(Event.RESIZE, onResize);
     addEventListener(Event.ENTER_FRAME, onEnterFrame);
+    stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
   }
 
   private function onResize(event:Event):Void {
@@ -80,13 +89,27 @@ class Main extends Sprite {
   }
 
   private function onEnterFrame(event:Event):Void {
-    final delta = 0.020;
+    final currentFrameTime = Lib.getTimer() / 60.0;
+    final frameDelta = currentFrameTime - lastFrameTime;
+    lastFrameTime = currentFrameTime;
 
-    palette.update(delta, Lib.getTimer() / 60.0);
+    simulatedTime += (timeReversed ? -frameDelta : frameDelta);
+
+    palette.update(heightDelta, simulatedTime);
+    trace('x');
+    trace(Lib.getTimer() / 60.0);
+    trace(simulatedTime);
+    trace(simulatedTime / (Lib.getTimer() / 60.0));
     novaShader.data.colorLUT.input = palette.toColorLUT();
     setShaderUniforms();
     bitmap.filters = [new ShaderFilter(novaShader)];
     bitmap.invalidate();
+  }
+
+  private function onKeyDown(event:KeyboardEvent):Void {
+    switch (event.keyCode) {
+      case Keyboard.R: timeReversed = !timeReversed;
+    }
   }
 }
 
