@@ -19,8 +19,8 @@ class HeightPalette {
   private static final BITMAP_DEFAULT_FILL:Int = 0x00AA55;
   private static final NO_HEIGHT_COLOR:Int = 0xFF00FF;
 
-  private final initialPairs:Array<HeightColorPair>; // No mutation after constructor.
-  private final _pairs:Array<HeightColorPair>; // Internals mutate.
+  private var initialPairs:Array<HeightColorPair>;
+  private var _pairs:Array<HeightColorPair>;
 
   private function new(pairs:Array<HeightColorPair>) {
     initialPairs = pairs;
@@ -33,6 +33,12 @@ class HeightPalette {
   }
 
   public static function createRandom(?heightCount:Int):HeightPalette {
+    final pairs = createRandomPairArray(heightCount);
+
+    return new HeightPalette(pairs);
+  }
+
+  private static function createRandomPairArray(?heightCount:Int):Array<HeightColorPair> {
     final pairs:Array<HeightColorPair> = new Array<HeightColorPair>();
 
     if (heightCount == null)
@@ -45,7 +51,7 @@ class HeightPalette {
       });
     }
 
-    return new HeightPalette(pairs);
+    return pairs;
   }
 
   public function getPairsCount():Int {
@@ -102,6 +108,20 @@ class HeightPalette {
 
     sortPairs(_pairs);
   }
+
+  public function randomizeColors():Void {
+    for (p in initialPairs)
+      p.color = Std.random(MAX_COLOR_VALUE);
+  }
+
+  public function randomizeHeightsAndColors():Void {
+    initialPairs = HeightPalette.createRandomPairArray();
+
+    _pairs = new Array<HeightColorPair>();
+
+    for (p in initialPairs)
+      _pairs.push({ height: p.height, color: p.color });
+   }
 
   // The following sort is mutating.
   //

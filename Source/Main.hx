@@ -30,6 +30,8 @@ class Main extends Sprite {
 
   private var timeReversed:Bool = false;
 
+  private var shiftIsPressed:Bool = false;
+
   public function new() {
     super();
 
@@ -58,6 +60,7 @@ class Main extends Sprite {
     stage.addEventListener(Event.RESIZE, onResize);
     addEventListener(Event.ENTER_FRAME, onEnterFrame);
     stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+    stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
   }
 
   private function onResize(event:Event):Void {
@@ -105,6 +108,21 @@ class Main extends Sprite {
   private function onKeyDown(event:KeyboardEvent):Void {
     switch (event.keyCode) {
       case Keyboard.R: timeReversed = !timeReversed;
+      case Keyboard.C: palette.randomizeColors();
+      case Keyboard.H: palette.randomizeHeightsAndColors();
+      case Keyboard.O:
+        final currentOctaves = novaShader.data.octaves.value[0];
+        novaShader.data.octaves.value[0] =
+          shiftIsPressed ? currentOctaves - 1 : currentOctaves + 1;
+      case Keyboard.MINUS: heightDelta -= 0.0025;
+      case Keyboard.EQUAL: heightDelta += 0.0025;
+      case Keyboard.SHIFT: shiftIsPressed = true;
+    }
+  }
+
+  private function onKeyUp(event:KeyboardEvent):Void {
+    switch (event.keyCode) {
+      case Keyboard.SHIFT: shiftIsPressed = false;
     }
   }
 }
