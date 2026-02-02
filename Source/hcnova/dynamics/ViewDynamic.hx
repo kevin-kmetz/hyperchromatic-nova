@@ -25,7 +25,7 @@ class ViewDynamic {
   }
 
   private function getRandomVelocity():Float {
-    return Util.randomFloatFromRange(
+    return Util.randomFloat(
       ViewDynamic.VELOCITY_LOWER_BOUND,
       ViewDynamic.VELOCITY_UPPER_BOUND
     );

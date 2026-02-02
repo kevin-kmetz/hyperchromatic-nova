@@ -4,9 +4,15 @@
 
 package hcnova;
 
-function randomFloatFromRange(lowerBound:Float, upperBound:Float) {
-  final range = upperBound - lowerBound;
+function randomFloat(lowerInclusive:Float, upperExclusive:Float) {
+  final range = upperExclusive - lowerInclusive;
 
-  return Math.random() * range + lowerBound;
+  return Math.random() * range + lowerInclusive;
+}
+
+function randomInt(lowerInclusive:Int, upperInclusive:Int):Int {
+  final range = upperInclusive - lowerInclusive + 1;
+
+  return Std.random(range) + lowerInclusive;
 }
 
