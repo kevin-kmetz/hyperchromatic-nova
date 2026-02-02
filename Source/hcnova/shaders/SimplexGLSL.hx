@@ -1,5 +1,5 @@
 /*
- * hyperchromatic-nova/Source/hcnova/SimplexGLSL.hx
+ * hyperchromatic-nova/Source/hcnova/shaders/SimplexGLSL.hx
  *
  * Contains GLSL fragment shader code for simplex noise.
  */
@@ -34,7 +34,7 @@ THE SOFTWARE.
 ================================================================================
 */
 
-package hcnova;
+package hcnova.shaders;
 
 final fragmentHeader = "
   //

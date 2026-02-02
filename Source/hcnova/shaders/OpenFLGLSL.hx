@@ -1,5 +1,5 @@
 /*
- * hyperchromatic-nova/Source/hcnova/OpenFLGLSL.hx
+ * hyperchromatic-nova/Source/hcnova/shaders/OpenFLGLSL.hx
  *
  * Contains the GLSL code snippets copied from the metadata annotations in the
  * DisplayObjectShader class source code. Specifically, the code from the
@@ -31,7 +31,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ================================================================================
 */
 
-package hcnova;
+package hcnova.shaders;
 
 final vertexSource = "
   attribute float openfl_Alpha;

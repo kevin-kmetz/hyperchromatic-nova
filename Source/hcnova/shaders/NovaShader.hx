@@ -1,8 +1,8 @@
 /*
- * hyperchromatic-nova/Source/hcnova/NovaShader.hx
+ * hyperchromatic-nova/Source/hcnova/shaders/NovaShader.hx
  */
 
-package hcnova;
+package hcnova.shaders;
 
 import openfl.display.Shader;
 
