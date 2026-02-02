@@ -1,8 +1,8 @@
 /*
- * hyperchromatic-nova/Source/HeightPalette.hx
+ * hyperchromatic-nova/Source/hcnova/parameters/HeightPalette.hx
  */
 
-package hcnova;
+package hcnova.parameters;
 
 import openfl.display.BitmapData;
 

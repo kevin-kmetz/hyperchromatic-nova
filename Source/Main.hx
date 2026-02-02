@@ -16,7 +16,7 @@ import openfl.text.TextFormat;
 import openfl.ui.Keyboard;
 import openfl.utils.ByteArray;
 
-import hcnova.HeightPalette;
+import hcnova.parameters.HeightPalette;
 import hcnova.NovaShader;
 
 class Main extends Sprite {
