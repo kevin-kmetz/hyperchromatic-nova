@@ -16,8 +16,8 @@ import openfl.text.TextFormat;
 import openfl.ui.Keyboard;
 import openfl.utils.ByteArray;
 
-import hcnova.parameters.HeightPalette;
 import hcnova.NovaShader;
+import hcnova.parameters.HeightPalette;
 
 class Main extends Sprite {
   private final window = Lib.current.stage.window;
