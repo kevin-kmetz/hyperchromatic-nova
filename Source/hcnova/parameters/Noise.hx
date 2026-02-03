@@ -17,14 +17,12 @@ class Noise {
   private final frequency:Float;
 
   public function new(?bounds:NoiseDynamic) {
+    bounds ??= new NoiseDynamic();
+
     octaves = Util.randomInt(Noise.OCTAVES_LOWER_BOUND, Noise.OCTAVES_UPPER_BOUND);
     lacunarity = Util.randomFloat(bounds.lacunarity_a, bounds.lacunarity_b);
     persistence = Util.randomFloat(bounds.persistence_a, bounds.persistence_b);
     frequency = Util.randomFloat(bounds.frequency_a, bounds.frequency_b);
-  }
-
-  private function getRandomOctaves():Int {
-    return ;
   }
 }
 

@@ -19,6 +19,8 @@ import openfl.utils.ByteArray;
 import hcnova.parameters.HeightPalette;
 import hcnova.shaders.NovaShader;
 
+import hcnova.NovaRenderer;
+
 class Main extends Sprite {
   private final window = Lib.current.stage.window;
   private var textUI:TextField = new TextField();
@@ -48,6 +50,9 @@ class Main extends Sprite {
     setShaderUniforms();
 
     initializeUI();
+
+    // Not used for now - just testing that it instantiates.
+    final renderer = new NovaRenderer();
   }
 
   private function initBitmapShader():Void {
