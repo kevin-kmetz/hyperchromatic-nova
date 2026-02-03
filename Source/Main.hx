@@ -10,6 +10,7 @@ import openfl.display.BitmapData;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.KeyboardEvent;
+import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
@@ -31,6 +32,8 @@ class Main extends Sprite {
 
   private var bitmap:Bitmap;
   private var novaShader:NovaShader;
+  private var filter:ShaderFilter;
+  private var filterArray:Array<BitmapFilter>;
   private var palette:HeightPalette;
 
   private var simulatedTime:Float = Lib.getTimer() / 60.0;
@@ -40,6 +43,8 @@ class Main extends Sprite {
   private var timeReversed:Bool = false;
 
   private var shiftIsPressed:Bool = false;
+
+  // private var heightQuantityArray:Array<Int> = [0];
 
   public function new() {
     super();
@@ -62,7 +67,13 @@ class Main extends Sprite {
 
     novaShader = new NovaShader();
     novaShader.data.octaves.value = [6];
-    bitmap.filters = [new ShaderFilter(novaShader)];
+    novaShader.data.persistence.value = [0.54];
+    novaShader.data.lacunarity.value = [1.70];
+    novaShader.data.frequency.value = [1.00];
+
+    filter = new ShaderFilter(novaShader);
+    filterArray = [filter];
+    bitmap.filters = filterArray;
 
     addChild(bitmap);
   }
@@ -93,6 +104,11 @@ class Main extends Sprite {
   }
 
   private function setShaderUniforms():Void {
+    // Was trying the following just to see if it would work. It does. I'm not
+    // sure if it is premature optimization though, or if it is worthwhile.
+    //
+    // heightQuantityArray[0] = palette.getPairsCount();
+    // novaShader.data.heightQuantity.value = heightQuantityArray;
     novaShader.data.heightQuantity.value = [palette.getPairsCount()];
     novaShader.data.heightsLower.value = palette.toLowerHeightsMat4();
     novaShader.data.heightsHigher.value = palette.toHigherHeightsMat4();
@@ -112,8 +128,14 @@ class Main extends Sprite {
     palette.update(heightDelta, simulatedTime);
     novaShader.data.colorLUT.input = palette.toColorLUT();
     setShaderUniforms();
-    bitmap.filters = [new ShaderFilter(novaShader)];
-    bitmap.invalidate();
+
+    // It's really not clear to my why I have to reassign the filters
+    // each frame. Invalidating the bitmap did nothing, and just caused a
+    // static frame to be shown. Reassigning index 0 also doesn't work. I was
+    // hoping to avoid having an array created each frame, which is why I've
+    // persisted the filter array as a field.
+    //
+    bitmap.filters = filterArray;
 
     updateUI();
   }
@@ -137,7 +159,7 @@ class Main extends Sprite {
         simulatedTime = 0.0;
       case Keyboard.SHIFT: shiftIsPressed = true;
       // The following is a temporary keybinding for visual testing and debugging.
-      case Keyboard.T: new NovaRenderer()._listProperties();
+      case Keyboard.T: new NovaRenderer(window.width, window.height)._listProperties();
     }
   }
 

@@ -1,0 +1,26 @@
+;; hyperchromatic-nova/fmb_noise_ranges.txt
+
+- Octaves
+  - [1, 10] => allowable
+  - [3, 7] => ideal
+
+- Persistence
+  - [0.25, 1.25] => allowable
+  - [0.35, 0.70] => organic
+  - [0.95, 1.15] => etched (detail-dominated)
+  - [0.45, 0.60] => balanced
+  - Using 0.54 for initial version.
+
+- Lacunarity
+  - [1.2, 2.3] => allowable
+  - [1.6, 2.0] => organic
+  - [1.2, 1.7] => etched
+  - [1.8, 2.1] => standard
+  - Using 1.70 for initial version.
+
+- Frequency
+  - [0.25, 24.0] => allowable
+  - [0.50, 12.0] => standard
+  - Should be ivnersely related to octaves.
+  - Using 1.00 for initial version.
+

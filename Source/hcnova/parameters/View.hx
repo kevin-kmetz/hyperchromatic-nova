@@ -10,8 +10,8 @@ class View {
   private static final COORD_LOWER_LIMIT = -50000.0;
   private static final COORD_UPPER_LIMIT =  50000.0;
 
-  private final x:Float;
-  private final y:Float;
+  public final x:Float;
+  public final y:Float;
 
   // To be implemented.
   //

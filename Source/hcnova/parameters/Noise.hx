@@ -11,10 +11,10 @@ class Noise {
   private static final OCTAVES_LOWER_BOUND = 1;
   private static final OCTAVES_UPPER_BOUND = 12;
 
-  private final octaves:Int;
-  private final lacunarity:Float;
-  private final persistence:Float;
-  private final frequency:Float;
+  public final octaves:Int;
+  public final lacunarity:Float;
+  public final persistence:Float;
+  public final frequency:Float;
 
   public function new(?bounds:NoiseDynamic) {
     bounds ??= new NoiseDynamic();

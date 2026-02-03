@@ -6,9 +6,15 @@ package hcnova.shaders;
 
 import openfl.display.Shader;
 
+import hcnova.parameters.HeightPalette;
+import hcnova.parameters.Noise;
+import hcnova.parameters.View;
+
 private final novaFragHeaderUniforms = "
-  uniform int octaves;  // [1, 10] allowable
-                        // [3, 7] ideal
+  uniform int octaves;
+  uniform float persistence;
+  uniform float lacunarity;
+  uniform float frequency;
 
   uniform int heightQuantity;
   uniform mat4 heightsLower;
@@ -165,19 +171,6 @@ private final novaFragHeaderHeightResolve = "
 ";
 
 private final novaFragBody = "
-  float persistence = 0.54;  // [0.25, 1.25] allowable
-                             // [0.35, 0.70] organic
-                             // [0.95, 1.15] etched (detail-dominated)
-                             // [0.45, 0.60] balanced
-  float lacunarity = 1.70;   // [1.2, 2.3] allowable
-                             // [1.6, 2.0] organic
-                             // [1.2, 1.7] etched
-                             // [1.8, 2.1] standard
-                             // <= 1.0, > 3.0 absolute bounds
-  float frequency = 1.00;    // [0.25, 24] allowable
-                             // [0.5, 12] standard
-                             // Should be inversely related to octaves.
-
   float noiseValue = fbmNoise(octaves, persistence, lacunarity, frequency);
   int index = noiseToIndex(noiseValue, heightQuantity, heightsLower, heightsHigher);
   vec4 heightColor = indexToColor(index, actualColors);
@@ -217,6 +210,45 @@ class NovaShader extends Shader {
 
     glVertexSource = OpenFLGLSL.vertexSource;
     glFragmentSource = novaFragmentSource;
+  }
+
+  public function initializeUniformsAndSamplers(
+    palette:HeightPalette, noise:Noise, view:View
+  ):Void {
+    data.heightQuantity.value = [palette.getPairsCount()];
+    data.heightsLower.value = palette.toLowerHeightsMat4();
+    data.heightsHigher.value = palette.toHigherHeightsMat4();
+    data.actualColors.input = palette.toColorLUT();
+
+    data.octaves.value = [noise.octaves];
+    data.persistence.value = [noise.persistence];
+    data.lacunarity.value = [noise.lacunarity];
+    data.frequency.value = [noise.frequency];
+
+    data.offset_x.value = [view.x];
+    data.offset_y.value = [view.y];
+
+    data.colorLUT.input = palette.toColorLUT();
+  }
+
+  public function updateUniformsAndSamplers(
+    palette:HeightPalette, noise:Noise, view:View
+  ):Void {
+    // I should probably just store the arrays that are originally created
+    // and then overwrite their indices with each update, to avoid arrays
+    // having to be created each frame and to minimize garbage churn.
+    //
+    // Might be premature optimization, and I'm not sure if it'll actually
+    // improve performance (or if it'll even need improving), so I'll punt
+    // for now.
+    //
+    data.heightQuantity.value = [palette.getPairsCount()];
+    data.heightsLower.value = palette.toLowerHeightsMat4();
+    data.heightsHigher.value = palette.toHigherHeightsMat4();
+    data.actualColors.input = palette.toColorLUT();
+
+    data.offset_x.value = [view.x];
+    data.offset_y.value = [view.y];
   }
 }
 
