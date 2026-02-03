@@ -24,6 +24,11 @@ class ViewDynamic {
     velocity_y = getRandomVelocity();
   }
 
+  public function _listProperties():Void {
+    Util.println('velocity_x: $velocity_x');
+    Util.println('velocity_y: $velocity_y\n');
+  }
+
   private function getRandomVelocity():Float {
     return Util.randomFloat(
       ViewDynamic.VELOCITY_LOWER_BOUND,

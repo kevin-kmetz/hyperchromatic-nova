@@ -4,6 +4,8 @@
 
 package hcnova.dynamics;
 
+import hcnova.Util;
+
 class NoiseDynamic {
   private static final OCTAVES_LOWER_BOUND = 1;
   private static final OCTAVES_UPPER_BOUND = 12;
@@ -63,6 +65,23 @@ class NoiseDynamic {
     frequency_b = getRandomFrequency();
     frequencyFrequency = getRandomOscillationFrequency();
     frequencyOffset = getRandomOscillationFrequency();
+  }
+
+  public function _listProperties():Void {
+    Util.println('lacunarity_a: $lacunarity_a');
+    Util.println('lacunarity_b: $lacunarity_b');
+    Util.println('Lacunarity frequency: $lacunarityFrequency');
+    Util.println('Lacunarity offset: $lacunarityOffset\n');
+
+    Util.println('persistence_a: $persistence_a');
+    Util.println('persistence_b: $persistence_b');
+    Util.println('Persistence frequency: $persistenceFrequency');
+    Util.println('Persistence offset: $persistenceOffset\n');
+
+    Util.println('frequency_a: $frequency_a');
+    Util.println('frequency_b: $frequency_b');
+    Util.println('Frequency frequency: $frequencyFrequency');
+    Util.println('Frequency offset: $frequencyOffset\n');
   }
 
   private function getRandomLacunarity():Float {

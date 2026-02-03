@@ -24,5 +24,12 @@ class Noise {
     persistence = Util.randomFloat(bounds.persistence_a, bounds.persistence_b);
     frequency = Util.randomFloat(bounds.frequency_a, bounds.frequency_b);
   }
+
+  public function _listProperties():Void {
+    Util.println('Octaves: $octaves');
+    Util.println('Lacunarity: $lacunarity');
+    Util.println('Persistence: $persistence');
+    Util.println('Frequency: $frequency\n');
+  }
 }
 

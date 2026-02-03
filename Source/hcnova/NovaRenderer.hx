@@ -12,6 +12,8 @@ import hcnova.dynamics.NoiseDynamic;
 import hcnova.dynamics.PaletteDynamic;
 import hcnova.dynamics.ViewDynamic;
 
+import hcnova.Util;
+
 class NovaRenderer {
   private final palette:HeightPalette;
   private final noise:Noise;
@@ -30,6 +32,18 @@ class NovaRenderer {
 
     paletteDynamic = new PaletteDynamic();
     viewDynamic = new ViewDynamic();
+  }
+
+  public function _listProperties():Void {
+    Util.println("\n===== Properties for a NovaRenderer =====");
+
+    palette._listProperties();
+    noise._listProperties();
+    view._listProperties();
+
+    noiseDynamic._listProperties();
+    paletteDynamic._listProperties();
+    viewDynamic._listProperties();
   }
 }
 

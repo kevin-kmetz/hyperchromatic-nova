@@ -50,9 +50,6 @@ class Main extends Sprite {
     setShaderUniforms();
 
     initializeUI();
-
-    // Not used for now - just testing that it instantiates.
-    final renderer = new NovaRenderer();
   }
 
   private function initBitmapShader():Void {
@@ -138,6 +135,8 @@ class Main extends Sprite {
         heightDelta += 0.0025;
         simulatedTime = 0.0;
       case Keyboard.SHIFT: shiftIsPressed = true;
+      // The following is a temporary keybinding for visual testing and debugging.
+      case Keyboard.T: new NovaRenderer()._listProperties();
     }
   }
 

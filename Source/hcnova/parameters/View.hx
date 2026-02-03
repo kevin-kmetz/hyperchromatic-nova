@@ -23,6 +23,11 @@ class View {
     y = getRandomComponent();
   }
 
+  public function _listProperties():Void {
+    Util.println('x: $x');
+    Util.println('y: $y\n');
+  }
+
   private function getRandomComponent():Float {
     return Util.randomFloat(View.COORD_LOWER_LIMIT, View.COORD_UPPER_LIMIT);
   }

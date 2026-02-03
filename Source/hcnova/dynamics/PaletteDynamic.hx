@@ -18,5 +18,9 @@ class PaletteDynamic {
       PaletteDynamic.DELTA_UPPER_BOUND
     );
   }
+
+  public function _listProperties():Void {
+    Util.println('Height delta: $delta\n');
+  }
 }
 

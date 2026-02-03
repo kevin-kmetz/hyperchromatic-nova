@@ -6,6 +6,8 @@ package hcnova.parameters;
 
 import openfl.display.BitmapData;
 
+import hcnova.Util;
+
 private typedef HeightColorPair = {
   height:Float,
   color:Int,
@@ -36,6 +38,10 @@ class HeightPalette {
     final pairs = createRandomPairArray(heightCount);
 
     return new HeightPalette(pairs);
+  }
+
+  public function _listProperties():Void {
+    Util.println('Height-color pair count: ${initialPairs.length}\n');
   }
 
   private static function createRandomPairArray(?heightCount:Int):Array<HeightColorPair> {
