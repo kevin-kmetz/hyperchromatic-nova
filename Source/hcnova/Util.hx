@@ -30,3 +30,11 @@ function println(text):Void {
   #end
 }
 
+// This is hacky, but I really don't want to have to import a third-party
+// library just to make a float cleanly printable, and I don't see any
+// included printf/sprintf-style functions in the Haxe documentation.
+//
+function truncateFloat(f:Float):Float {
+  return Math.ffloor(f * 100.0) / 100.00;
+}
+

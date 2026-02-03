@@ -20,6 +20,7 @@ import hcnova.parameters.HeightPalette;
 import hcnova.shaders.NovaShader;
 
 import hcnova.NovaRenderer;
+import hcnova.Util.truncateFloat;
 
 class Main extends Sprite {
   private final window = Lib.current.stage.window;
@@ -148,7 +149,7 @@ class Main extends Sprite {
 
   private function initializeUI():Void {
     textUI.defaultTextFormat = textFormatUI;
-    textUI.text = 'Time elapsed: ${truncateLowFloat(Lib.getTimer() / 60.0)}';
+    textUI.text = 'Time elapsed: ${truncateFloat(Lib.getTimer() / 60.0)}';
     textUI.width = 240;
     textUI.x = window.width - textUI.width - 5;
     textUI.y = 5;
@@ -162,20 +163,19 @@ class Main extends Sprite {
     final intendedPositionX = window.width - textUI.width - 5;
     final intendedPositionY = 5;
 
-    textUI.text = 'Time elapsed: ${truncateLowFloat(Lib.getTimer() / 60.0)}';
+    // For some reason I don't yet understand, trucateFloat cannot be preprended
+    // by the module name Util inside the string interpolation, despite it
+    // being perfectly okay outside of the string interpolation. Removing
+    // it works, but I really wanted to the prepended name for clarity.
+    // I updated the import at the top of the file to show where it is coming
+    // from.
+    //
+    textUI.text = 'Time elapsed: ${truncateFloat(Lib.getTimer() / 60.0)}';
 
     if (textUI.x != intendedPositionX || textUI.y != intendedPositionY) {
       textUI.x = intendedPositionX;
       textUI.y = intendedPositionY;
     }
-  }
-
-  // This is hacky, but I really don't want to have to import a third-party
-  // library just to make a float cleanly printable, and I don't see any
-  // included printf/sprintf-style functions in the Haxe documentation.
-  //
-  private function truncateLowFloat(f:Float):Float {
-    return Math.ffloor(f * 100.0) / 100.00;
   }
 }
 
